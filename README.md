@@ -1,10 +1,10 @@
-###Game description
+### Game description
 	This is a Whack-a-mole simulation game, player will press the corresponding switch when the led light
 on.
 
 ![image](https://drive.google.com/uc?export=view&id=1QtCn3fQ-uGEPSDyrX9Q-StpWDHnFVptz)
 
-###How to play
+### How to play
 	When the player press reset switch, the game will start and show a back and forth led patten
 toindicate player the game is ready to start in any time.  
 	The player then hold any of the four switch at least one second to start the game. A different led
@@ -16,7 +16,7 @@ the diffculty.
 led using binary representation. If the player keep press the correct switch 15 times, the game will win
 and display the player's score.
 	
-###Problems, obstacles
+### Problems, obstacles
 	The logic beside this game is not complicated, however the problem being stop me is the error A1284E,
 literal pool too distant, which will limit my code lenght. The other problem is relocation out of range, it
 is the same issue with previous problem. To slove this two problem, I have to write my code coupe times to 
@@ -24,7 +24,7 @@ make it short by using subroutine call to prevent redundant code. Also change th
 make it become a bridge to help relocation on the range. I implemented all basic features, no additional 
 feature added.
 
-###Adjustment
+### Adjustment
 	No adjustment allowed due to the limited code lenght. 
 	
 
