@@ -1,0 +1,2 @@
+Dependencies for Project 'tp', Target 'Target 1': (DO NOT MODIFY !)
+F (.\tp.s)(0x5C03EB73)(--cpu Cortex-M3 -g --apcs=interwork -I"C:\Users\kevin\Desktop\352 term proj\RTE"-ID:\cs301\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include-ID:\cs301\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 521" --pd "STM32F10X_MD_VL SETA 1"--list .\listings\tp.lst --xref -o .\objects\tp.o --depend .\objects\tp.d)

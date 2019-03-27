@@ -1,0 +1,1166 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; GPIO Test program - Dave Duguid, 2011
+    2 00000000         ; Modified Trevor Douglas 2014
+    3 00000000         
+    4 00000000         ;;; Directives
+    5 00000000                 PRESERVE8
+    6 00000000                 THUMB
+    7 00000000         
+    8 00000000         
+    9 00000000         ;;; Equates
+   10 00000000         
+   11 00000000 20001000 
+                       INITIAL_MSP
+                               EQU              0x20001000  ; Initial Main Stac
+                                                            k Pointer Value
+   12 00000000         
+   13 00000000         ;The offboard DIP Switch will be on port A bits 0 thru 3
+                       
+   14 00000000         ;PORT A GPIO - Base Addr: 0x40010800
+   15 00000000 40010800 
+                       GPIOA_CRL
+                               EQU              0x40010800  ; (0x00) Port Confi
+                                                            guration Register f
+                                                            or Px7 -> Px0
+   16 00000000 40010804 
+                       GPIOA_CRH
+                               EQU              0x40010804  ; (0x04) Port Confi
+                                                            guration Register f
+                                                            or Px15 -> Px8
+   17 00000000 40010808 
+                       GPIOA_IDR
+                               EQU              0x40010808  ; (0x08) Port Input
+                                                             Data Register
+   18 00000000 4001080C 
+                       GPIOA_ODR
+                               EQU              0x4001080C  ; (0x0C) Port Outpu
+                                                            t Data Register
+   19 00000000 40010810 
+                       GPIOA_BSRR
+                               EQU              0x40010810  ; (0x10) Port Bit S
+                                                            et/Reset Register
+   20 00000000 40010814 
+                       GPIOA_BRR
+                               EQU              0x40010814  ; (0x14) Port Bit R
+                                                            eset Register
+   21 00000000 40010818 
+                       GPIOA_LCKR
+                               EQU              0x40010818  ; (0x18) Port Confi
+                                                            guration Lock Regis
+                                                            ter
+   22 00000000         
+   23 00000000         ;PORT B GPIO - Base Addr: 0x40010C00
+   24 00000000 40010C00 
+                       GPIOB_CRL
+                               EQU              0x40010C00  ; (0x00) Port Confi
+                                                            guration Register f
+                                                            or Px7 -> Px0
+   25 00000000 40010C04 
+                       GPIOB_CRH
+                               EQU              0x40010C04  ; (0x04) Port Confi
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            guration Register f
+                                                            or Px15 -> Px8
+   26 00000000 40010C08 
+                       GPIOB_IDR
+                               EQU              0x40010C08  ; (0x08) Port Input
+                                                             Data Register
+   27 00000000 40010C0C 
+                       GPIOB_ODR
+                               EQU              0x40010C0C  ; (0x0C) Port Outpu
+                                                            t Data Register
+   28 00000000 40010C10 
+                       GPIOB_BSRR
+                               EQU              0x40010C10  ; (0x10) Port Bit S
+                                                            et/Reset Register
+   29 00000000 40010C14 
+                       GPIOB_BRR
+                               EQU              0x40010C14  ; (0x14) Port Bit R
+                                                            eset Register
+   30 00000000 40010C18 
+                       GPIOB_LCKR
+                               EQU              0x40010C18  ; (0x18) Port Confi
+                                                            guration Lock Regis
+                                                            ter
+   31 00000000         
+   32 00000000         ;The onboard LEDS are on port C bits 8 and 9
+   33 00000000         ;PORT C GPIO - Base Addr: 0x40011000
+   34 00000000 40011000 
+                       GPIOC_CRL
+                               EQU              0x40011000  ; (0x00) Port Confi
+                                                            guration Register f
+                                                            or Px7 -> Px0
+   35 00000000 40011004 
+                       GPIOC_CRH
+                               EQU              0x40011004  ; (0x04) Port Confi
+                                                            guration Register f
+                                                            or Px15 -> Px8
+   36 00000000 40011008 
+                       GPIOC_IDR
+                               EQU              0x40011008  ; (0x08) Port Input
+                                                             Data Register
+   37 00000000 4001100C 
+                       GPIOC_ODR
+                               EQU              0x4001100C  ; (0x0C) Port Outpu
+                                                            t Data Register
+   38 00000000 40011010 
+                       GPIOC_BSRR
+                               EQU              0x40011010  ; (0x10) Port Bit S
+                                                            et/Reset Register
+   39 00000000 40011014 
+                       GPIOC_BRR
+                               EQU              0x40011014  ; (0x14) Port Bit R
+                                                            eset Register
+   40 00000000 40011018 
+                       GPIOC_LCKR
+                               EQU              0x40011018  ; (0x18) Port Confi
+                                                            guration Lock Regis
+                                                            ter
+   41 00000000         
+   42 00000000         ;Registers for configuring and enabling the clocks
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   43 00000000         ;RCC Registers - Base Addr: 0x40021000
+   44 00000000 40021000 
+                       RCC_CR  EQU              0x40021000  ; Clock Control Reg
+                                                            ister
+   45 00000000 40021004 
+                       RCC_CFGR
+                               EQU              0x40021004  ; Clock Configurati
+                                                            on Register
+   46 00000000 40021008 
+                       RCC_CIR EQU              0x40021008  ; Clock Interrupt R
+                                                            egister
+   47 00000000 4002100C 
+                       RCC_APB2RSTR
+                               EQU              0x4002100C  ; APB2 Peripheral R
+                                                            eset Register
+   48 00000000 40021010 
+                       RCC_APB1RSTR
+                               EQU              0x40021010  ; APB1 Peripheral R
+                                                            eset Register
+   49 00000000 40021014 
+                       RCC_AHBENR
+                               EQU              0x40021014  ; AHB Peripheral Cl
+                                                            ock Enable Register
+                                                            
+   50 00000000         
+   51 00000000 40021018 
+                       RCC_APB2ENR
+                               EQU              0x40021018  ; APB2 Peripheral C
+                                                            lock Enable Registe
+                                                            r  -- Used
+   52 00000000         
+   53 00000000 4002101C 
+                       RCC_APB1ENR
+                               EQU              0x4002101C  ; APB1 Peripheral C
+                                                            lock Enable Registe
+                                                            r
+   54 00000000 40021020 
+                       RCC_BDCR
+                               EQU              0x40021020  ; Backup Domain Con
+                                                            trol Register
+   55 00000000 40021024 
+                       RCC_CSR EQU              0x40021024  ; Control/Status Re
+                                                            gister
+   56 00000000 4002102C 
+                       RCC_CFGR2
+                               EQU              0x4002102C  ; Clock Configurati
+                                                            on Register 2
+   57 00000000         
+   58 00000000 20001000 
+                       STACK_POINTER
+                               EQU              0x20001000
+   59 00000000         ; Times for delay routines
+   60 00000000         
+   61 00000000 00186A00 
+                       DELAYTIME
+                               EQU              1600000     ; (200 ms/24MHz PLL
+                                                            )
+   62 00000000 000C3500 
+                       halfDELAYTIME
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+                               EQU              800000
+   63 00000000 00061A80 
+                       quatDELAYTIME
+                               EQU              400000
+   64 00000000         
+   65 00000000         
+   66 00000000         ; Vector Table Mapped to Address 0 at Reset
+   67 00000000                 AREA             RESET, Data, READONLY
+   68 00000000                 EXPORT           __Vectors
+   69 00000000         
+   70 00000000 20001000 
+                       __Vectors
+                               DCD              INITIAL_MSP ; stack pointer val
+                                                            ue when stack is em
+                                                            pty
+   71 00000004 00000000        DCD              Reset_Handler ; reset vector
+   72 00000008         
+   73 00000008                 AREA             MYCODE, CODE, READONLY
+   74 00000000                 EXPORT           Reset_Handler
+   75 00000000                 ENTRY
+   76 00000000         
+   77 00000000         Reset_Handler
+                               PROC
+   78 00000000         
+   79 00000000 F7FF FFFE       BL               GPIO_ClockInit
+   80 00000004 F7FF FFFE       BL               GPIO_init
+   81 00000008 4B01            LDR              R3, =DELAYTIME
+   82 0000000A 4E01            ldr              r6, = STACK_POINTER
+   83 0000000C E7FE            b                UC2
+   84 0000000E                 ENDP
+   85 0000000E         
+   86 0000000E         ;This routine will enable the clock for the Ports that y
+                       ou need 
+   87 0000000E 00 00           ALIGN
+   88 00000010         GPIO_ClockInit
+                               PROC
+   89 00000010         
+   90 00000010         ; Students to write.  Registers   .. RCC_APB2ENR
+   91 00000010         ; ENEL 384 Pushbuttons: SW2(Red): PB8, SW3(Black): PB9, 
+                       SW4(Blue): PC12 *****NEW for 2015**** SW5(Green): PA5
+   92 00000010         ; ENEL 384 board LEDs: D1 - PA9, D2 - PA10, D3 - PA11, D
+                       4 - PA12
+   93 00000010 4801            ldr              r0,=RCC_APB2ENR
+   94 00000012 6801            ldr              r1,[r0]     ;load value store i
+                                                            n address r0 to r1
+   95 00000014 F041 011C       orr              r1,#0x1c
+   96 00000018 6001            str              r1,[r0]     ;save value in r1 t
+                                                            o address r0
+   97 0000001A 4770            BX               LR
+   98 0000001C                 ENDP
+   99 0000001C         
+  100 0000001C         ;This routine enables the GPIO for the LED's.  By defaul
+                       t the I/O lines are input so we only need to configure f
+                       or ouptut.
+  101 0000001C                 ALIGN
+  102 0000001C         GPIO_init
+                               PROC
+  103 0000001C         
+  104 0000001C         ; ENEL 384 board LEDs: D1 - PA9, D2 - PA10, D3 - PA11, D
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+                       4 - PA12
+  105 0000001C 4801            ldr              r0,=0x40010804 ; 0x40010804 (0x
+                                                            04) Port Configurat
+                                                            ion Register for Px
+                                                            15 -> Px8
+  106 0000001E 4901            ldr              r1,=0x44433334
+  107 00000020 6001            str              r1,[r0]
+  108 00000022 4C01            ldr              r4,=0x40010800 ; port A GPIO (0
+                                                            x00) Port Configura
+                                                            tion Register for P
+                                                            x7 -> Px0
+  109 00000024 6821            ldr              r1,[r4]
+  110 00000026 F021 010F       and              r1,#0xfffffff0
+  111 0000002A F041 0104       orr              r1,#4
+  112 0000002E 6021            str              r1,[r4]
+  113 00000030 4801            ldr              r0,=0x4001080C ; 0x4001080C (0x
+                                                            0C) Port A Output D
+                                                            ata Register
+  114 00000032 6801            ldr              r1,[r0]
+  115 00000034 F481 51F0       eor              r1,#0x1e00  ;1111000000000
+  116 00000038 6001            str              r1,[r0]     ;turn off all leds
+  117 0000003A         
+  118 0000003A         
+  119 0000003A 4770            BX               LR
+  120 0000003C                 ENDP
+  121 0000003C         
+  122 0000003C         
+  123 0000003C         
+  124 0000003C         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  125 0000003C         ;;;The game enter a start up status. A LED pattern will 
+                       indicating that no
+  126 0000003C         ;;;game is in progress and the game is waiting for a pla
+                       yer to start by press any
+  127 0000003C         ;;;of the four switch
+  128 0000003C         ;;;Require:
+  129 0000003C         ;;; N/A
+  130 0000003C         ;;;Promise:
+  131 0000003C         ;;; Keep indicate the led pattern until any switch was p
+                       ressed
+  132 0000003C         ;;;Note:
+  133 0000003C         ;;; The first two line is used to reset game condition i
+                       n any case the game restart 
+  134 0000003C         ;;; after one round
+  135 0000003C         
+  136 0000003C                 ALIGN
+  137 0000003C         UC2     PROC                         ; 4 leds cycling ba
+                                                            ck and forth at 1Hz
+                                                            
+  138 0000003C F8DF A408       ldr              r10,=400000 ; reset variable de
+                                                            lay counter's maxiu
+                                                            m use for variable 
+                                                            delay time
+  139 00000040 F7FF FFFE       bl               offLed      ; Turn off any led 
+                                                            
+  140 00000044         
+  141 00000044 F04F 0800       mov              r8, #0
+  142 00000048         ;;;;;;;;;;;;;;;;;;LED1
+  143 00000048 F7FF FFFE       bl               led1Light   ; turn on led 1
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+  144 0000004C F7FF FFFE       bl               testKeyPress ; test if any swit
+                                                            ch was pressed
+  145 00000050 F7FF FFFE       bl               delay       ; delay 
+  146 00000054 F7FF FFFE       bl               offLed      ; turn off all led
+  147 00000058         ;;;;;;;;;;;;;;;;;;LED2
+  148 00000058 F7FF FFFE       bl               led2Light
+  149 0000005C F7FF FFFE       bl               testKeyPress
+  150 00000060 F7FF FFFE       bl               delay
+  151 00000064 F7FF FFFE       bl               offLed
+  152 00000068         ;;;;;;;;;;;;;;;;;;LED3
+  153 00000068 F7FF FFFE       bl               led3Light
+  154 0000006C F7FF FFFE       bl               testKeyPress
+  155 00000070 F7FF FFFE       bl               delay
+  156 00000074 F7FF FFFE       bl               offLed
+  157 00000078         ;;;;;;;;;;;;;;;;;;LED4
+  158 00000078 F7FF FFFE       bl               led4Light
+  159 0000007C F7FF FFFE       bl               testKeyPress
+  160 00000080 F7FF FFFE       bl               delay
+  161 00000084 F7FF FFFE       bl               offLed
+  162 00000088         ;;;;;;;;;;;;;;;;;;LED3
+  163 00000088 F7FF FFFE       bl               led3Light
+  164 0000008C F7FF FFFE       bl               testKeyPress
+  165 00000090 F7FF FFFE       bl               delay
+  166 00000094 F7FF FFFE       bl               offLed
+  167 00000098         ;;;;;;;;;;;;;;;;;;LED2
+  168 00000098 F7FF FFFE       bl               led2Light
+  169 0000009C F7FF FFFE       bl               testKeyPress
+  170 000000A0 F7FF FFFE       bl               delay
+  171 000000A4 E7FE            b                UC2         ; go back to UC2 if
+                                                             no switch was pres
+                                                            sed and the led pat
+                                                            ten will keep go ba
+                                                            ck and forth by ord
+                                                            er 1-2-3-4-3-2-1-2-
+                                                            3-4-3-2-1
+  172 000000A6                 ENDP
+  173 000000A6         
+  174 000000A6         
+  175 000000A6         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  176 000000A6         ;;; A special led patten to indicate any status change
+  177 000000A6         ;;; Promiss:
+  178 000000A6         ;;;  N/A
+  179 000000A6         ;;; Require:
+  180 000000A6         ;;;  N/A
+  181 000000A6         ;;; Note:
+  182 000000A6         ;;;  special used for status change from UC2 to UC3
+  183 000000A6 00 00           ALIGN
+  184 000000A8         ledStatusPatten
+                               PROC                         ; 4 leds cycling ba
+                                                            ck and forth at 1Hz
+                                                            
+  185 000000A8         ;;;;;;;;;;;;;;;;;;LED1
+  186 000000A8 F7FF FFFE       bl               offLed
+  187 000000AC F7FF FFFE       bl               led1Light
+  188 000000B0 F7FF FFFE       bl               quatDelay
+  189 000000B4 F7FF FFFE       bl               offLed
+  190 000000B8         ;;;;;;;;;;;;;;;;;;LED2
+  191 000000B8 F7FF FFFE       bl               led2Light
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+  192 000000BC F7FF FFFE       bl               quatDelay
+  193 000000C0 F7FF FFFE       bl               offLed
+  194 000000C4         ;;;;;;;;;;;;;;;;;;LED3
+  195 000000C4 F7FF FFFE       bl               led3Light
+  196 000000C8 F7FF FFFE       bl               quatDelay
+  197 000000CC F7FF FFFE       bl               offLed
+  198 000000D0         ;;;;;;;;;;;;;;;;;;LED4
+  199 000000D0 F7FF FFFE       bl               led4Light
+  200 000000D4 F7FF FFFE       bl               quatDelay
+  201 000000D8 F7FF FFFE       bl               offLed
+  202 000000DC         ;;;;;;;;;;;;;;;;;;LED3
+  203 000000DC F7FF FFFE       bl               led3Light
+  204 000000E0 F7FF FFFE       bl               quatDelay
+  205 000000E4 F7FF FFFE       bl               offLed
+  206 000000E8         ;;;;;;;;;;;;;;;;;;LED2
+  207 000000E8 F7FF FFFE       bl               led2Light
+  208 000000EC F7FF FFFE       bl               quatDelay
+  209 000000F0 F7FF FFFE       bl               offLed
+  210 000000F4         ;;;;;;;;;;;;;;;;;;AllLed
+  211 000000F4 F7FF FFFE       bl               allLedOn
+  212 000000F8 F7FF FFFE       bl               quatDelay
+  213 000000FC F7FF FFFE       bl               offLed
+  214 00000100 F7FF FFFE       bl               quatDelay
+  215 00000104 F7FF FFFE       bl               allLedOn
+  216 00000108 F7FF FFFE       bl               quatDelay
+  217 0000010C F7FF FFFE       bl               offLed
+  218 00000110 F7FF FFFE       bl               quatDelay
+  219 00000114 F7FF FFFE       bl               allLedOn
+  220 00000118 F7FF FFFE       bl               quatDelay
+  221 0000011C F7FF FFFE       bl               offLed
+  222 00000120 F7FF FFFE       bl               quatDelay
+  223 00000124 E7FE            B                UC3
+  224 00000126                 ENDP
+  225 00000126         
+  226 00000126         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  227 00000126         ;;; Subroutine for turn on led 1
+  228 00000126         ;;; Require:
+  229 00000126         ;;;  R0: ptr to GPIOA_ODR
+  230 00000126         ;;;  R1: right value that just turn on led 1
+  231 00000126         ;;; Promise:
+  232 00000126         ;;;  Reset timing delay counter to zero and turn on led 
+                       1
+  233 00000126 00 00           ALIGN
+  234 00000128         led1Light
+                               PROC
+  235 00000128 F04F 0400       mov              r4,#0
+  236 0000012C 48C5            ldr              r0,=0x4001080C
+  237 0000012E F44F 413C       ldr              r1,=0x0000bc00
+  238 00000132 6001            str              r1,[r0]
+  239 00000134 4770            BX               LR
+  240 00000136                 ENDP
+  241 00000136         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  242 00000136         ;;; Subroutine for turn on led 2
+  243 00000136         ;;; Require:
+  244 00000136         ;;;  R0: ptr to GPIOA_ODR
+  245 00000136         ;;;  R1: right value that just turn on led 2
+  246 00000136         ;;; Promise:
+
+
+
+ARM Macro Assembler    Page 8 
+
+
+  247 00000136         ;;;  Reset timing delay counter to zero and turn on led 
+                       2  
+  248 00000136 00 00           ALIGN
+  249 00000138         led2Light
+                               PROC
+  250 00000138 F04F 0400       mov              r4,#0
+  251 0000013C 48C1            ldr              r0,=0x4001080C
+  252 0000013E F641 2101       ldr              r1,=0x00001a01
+  253 00000142 6001            str              r1,[r0]
+  254 00000144 4770            BX               LR
+  255 00000146                 ENDP
+  256 00000146         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  257 00000146         ;;; Subroutine for turn on led 3
+  258 00000146         ;;; Require:
+  259 00000146         ;;;  R0: ptr to GPIOA_ODR
+  260 00000146         ;;;  R1: right value that just turn on led 3
+  261 00000146         ;;; Promise:
+  262 00000146         ;;;  Reset timing delay counter to zero and turn on led 
+                       3  
+  263 00000146 00 00           ALIGN
+  264 00000148         led3Light
+                               PROC
+  265 00000148 F04F 0400       mov              r4,#0
+  266 0000014C 48BD            ldr              r0,=0x4001080C
+  267 0000014E F241 6101       ldr              r1,=0x00001601
+  268 00000152 6001            str              r1,[r0]
+  269 00000154 4770            BX               LR
+  270 00000156                 ENDP
+  271 00000156         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  272 00000156         ;;; Subroutine for turn on led 4
+  273 00000156         ;;; Require:
+  274 00000156         ;;;  R0: ptr to GPIOA_ODR
+  275 00000156         ;;;  R1: right value that just turn on led 4
+  276 00000156         ;;; Promise:
+  277 00000156         ;;;  Reset timing delay counter to zero and turn on led 
+                       4  
+  278 00000156 00 00           ALIGN
+  279 00000158         led4Light
+                               PROC
+  280 00000158 F04F 0400       mov              r4,#0
+  281 0000015C 48B9            ldr              r0,=0x4001080C
+  282 0000015E F640 6101       ldr              r1,=0x00000E01
+  283 00000162 6001            str              r1,[r0]
+  284 00000164 4770            BX               LR
+  285 00000166                 ENDP
+  286 00000166         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  287 00000166         ;;; Subroutine for turn on all led 
+  288 00000166         ;;; Require:
+  289 00000166         ;;;  R0: ptr to GPIOA_ODR
+  290 00000166         ;;;  R1: right value that turn on all led 
+  291 00000166         ;;; Promise:
+  292 00000166         ;;;  N/A 
+  293 00000166 00 00           ALIGN
+  294 00000168         allLedOn
+                               PROC
+  295 00000168 B47F            PUSH             {r0,r1,r2,r3,r4,r5,r6}
+
+
+
+ARM Macro Assembler    Page 9 
+
+
+  296 0000016A 48B6            ldr              r0,=0x4001080C
+  297 0000016C F04F 0101       mov              r1,#0x00000001
+  298 00000170 6001            str              r1,[r0]
+  299 00000172 BC7F            POP              {r0,r1,r2,r3,r4,r5,r6}
+  300 00000174 4770            BX               LR
+  301 00000176                 ENDP
+  302 00000176         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  303 00000176         ;;; Subroutine for turn off all led 
+  304 00000176         ;;; Require:
+  305 00000176         ;;;  R0: ptr to GPIOA_ODR
+  306 00000176         ;;;  R1: right value that turn off all led 
+  307 00000176         ;;; Promise:
+  308 00000176         ;;;  N/A  
+  309 00000176 00 00           ALIGN
+  310 00000178         offLed  PROC
+  311 00000178 F04F 0400       mov              r4,#0
+  312 0000017C 48B1            ldr              r0,=0x4001080C
+  313 0000017E F441 51F0       orr              r1,#0x1e00
+  314 00000182 6001            str              r1,[r0]
+  315 00000184 4770            BX               LR
+  316 00000186                 ENDP
+  317 00000186         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  318 00000186         ;;; Test if any of the 4 switch was pressed, if any one 
+                       of the switch was press jump to UC3
+  319 00000186         ;;; Require:
+  320 00000186         ;;;  N/A 
+  321 00000186         ;;; Promise:
+  322 00000186         ;;;  N/A 
+  323 00000186 00 00           ALIGN
+  324 00000188         testKeyPress
+                               PROC
+  325 00000188 48B0            ldr              r0,=0x40010C08
+  326 0000018A 6801            ldr              r1,[r0]     ;test if sw1 press
+  327 0000018C EA4F 2111       lsr              r1,#8
+  328 00000190 F001 0101       and              r1,#1
+  329 00000194 2901            cmp              r1,#1
+  330 00000196 D1FE            bne              UC2ToUC3
+  331 00000198         
+  332 00000198 48AC            ldr              r0,=0x40010C08
+  333 0000019A 6801            ldr              r1,[r0]     ;test if sw2 press
+  334 0000019C EA4F 2151       lsr              r1,#9
+  335 000001A0 F001 0101       and              r1,#1
+  336 000001A4 2901            cmp              r1,#1
+  337 000001A6 D1FE            bne              UC2ToUC3
+  338 000001A8         
+  339 000001A8 48A9            ldr              r0,=0x40011008
+  340 000001AA 6801            ldr              r1,[r0]     ;test if sw3 press
+  341 000001AC EA4F 3111       lsr              r1,#12
+  342 000001B0 F001 0101       and              r1,#1
+  343 000001B4 2901            cmp              r1,#1
+  344 000001B6 D1FE            bne              UC2ToUC3
+  345 000001B8         
+  346 000001B8 48A6            ldr              r0,=0x40010808
+  347 000001BA 6801            ldr              r1,[r0]     ;test if sw4 press
+  348 000001BC EA4F 1151       lsr              r1,#5
+  349 000001C0 F001 0101       and              r1,#1
+  350 000001C4 2901            cmp              r1,#1
+
+
+
+ARM Macro Assembler    Page 10 
+
+
+  351 000001C6 D1FE            bne              UC2ToUC3
+  352 000001C8 4770            bx               lr
+  353 000001CA                 ENDP
+  354 000001CA         
+  355 000001CA         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  356 000001CA         ;;; Subroutine that counting from 0 to 1600000 that same
+                        as sleep() in c
+  357 000001CA         ;;; Require:
+  358 000001CA         ;;;  N/A 
+  359 000001CA         ;;; Promise:
+  360 000001CA         ;;;  Not change any register before and after the subrou
+                       tine called
+  361 000001CA         ;;; Note:
+  362 000001CA         ;;;  Have to place this subroutine here to avoid the lit
+                       eral pool too distance
+  363 000001CA 00 00           ALIGN
+  364 000001CC         delay   PROC
+  365 000001CC B41F            push             {r0, r1, r2, r3, r4}
+  366 000001CE 4B97            ldr              r3,=1600000
+  367 000001D0         delayLoop
+  368 000001D0 F104 0401       add              r4, #1
+  369 000001D4 42A3            cmp              r3, r4
+  370 000001D6 D1FB            bne              delayLoop
+  371 000001D8 BC1F            pop              {r0, r1, r2, r3, r4}
+  372 000001DA 4770            BX               LR
+  373 000001DC                 ENDP
+  374 000001DC         
+  375 000001DC         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  376 000001DC         ;;; Subroutine that counting from 0 to 400000 that same 
+                       as sleep() in c
+  377 000001DC         ;;; Require:
+  378 000001DC         ;;;  N/A 
+  379 000001DC         ;;; Promise:
+  380 000001DC         ;;;  Not change any register before and after the subrou
+                       tine called
+  381 000001DC         ;;; Note:
+  382 000001DC         ;;;  Have to place this subroutine here to avoid the lit
+                       eral pool too distance
+  383 000001DC                 ALIGN
+  384 000001DC         quatDelay
+                               PROC
+  385 000001DC B41F            push             {r0, r1, r2, r3, r4}
+  386 000001DE 4B9A            ldr              r3,=400000
+  387 000001E0         quatDelayLoop
+  388 000001E0 F104 0401       add              r4, #1
+  389 000001E4 42A3            cmp              r3, r4
+  390 000001E6 D1FB            bne              quatDelayLoop
+  391 000001E8 BC1F            pop              {r0, r1, r2, r3, r4}
+  392 000001EA 4770            BX               LR
+  393 000001EC                 ENDP
+  394 000001EC         
+  395 000001EC         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  396 000001EC         ;;; Subroutine that counting from 0 to the value in r10 
+                       that same as sleep() in c
+  397 000001EC         ;;; Require:
+  398 000001EC         ;;;  r10 is the value that greater enough for human reac
+
+
+
+ARM Macro Assembler    Page 11 
+
+
+                       tion 
+  399 000001EC         ;;; Promise:
+  400 000001EC         ;;;  Not change any register before and after the subrou
+                       tine called
+  401 000001EC         ;;; Note:
+  402 000001EC         ;;;  Have to place this subroutine here to avoid the lit
+                       eral pool too distance  
+  403 000001EC                 ALIGN
+  404 000001EC         variableDelay
+                               PROC
+  405 000001EC B41F            push             {r0, r1, r2, r3, r4}
+  406 000001EE         variableDelayLoop
+  407 000001EE F104 0401       add              r4, #1
+  408 000001F2 45A2            cmp              r10, r4
+  409 000001F4 D1FB            bne              variableDelayLoop
+  410 000001F6 BC1F            pop              {r0, r1, r2, r3, r4}
+  411 000001F8 4770            BX               LR
+  412 000001FA                 ENDP
+  413 000001FA         
+  414 000001FA         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  415 000001FA         ;;; A jumper that connect UC2 to UC3 because there is a 
+                       led patten should be perform 
+  416 000001FA         ;;; in between UC2 and UC3
+  417 000001FA         ;;; Require:
+  418 000001FA         ;;;  N/A
+  419 000001FA         ;;; Promise:
+  420 000001FA         ;;;  change value in register r12 to 4, this value is us
+                       ed to make sure the random 
+  421 000001FA         ;;;  never repeate  
+  422 000001FA 00 00           ALIGN
+  423 000001FC         UC2ToUC3
+                               PROC
+  424 000001FC F7FF FFFE       bl               ledStatusPatten
+  425 00000200 F04F 0C04       mov              r12, #0x4
+  426 00000204                 ENDP
+  427 00000204         
+  428 00000204         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  429 00000204         ;;; Use case 3, initial all condition for a normal game 
+                       play round
+  430 00000204         ;;; Require:
+  431 00000204         ;;;  N/A
+  432 00000204         ;;; Promise:
+  433 00000204         ;;;  turn off all led in case. call random function to g
+                       enerate a random number
+  434 00000204         ;;;  and based on the number that generated to turn on t
+                       he corresponding led
+  435 00000204         ;;; Note:
+  436 00000204         ;;;  R9 is using for variableDelay function, the value i
+                       n r9 will countrol how
+  437 00000204         ;;;  the variale delay working
+  438 00000204                 ALIGN
+  439 00000204         UC3     PROC
+  440 00000204 F643 2998       ldr              r9,= 15000
+  441 00000208 EBAA 0A09       sub              r10,r10, r9
+  442 0000020C F7FF FFFE       bl               offLed
+  443 00000210 F7FF FFFE       bl               quatDelay
+  444 00000214 F7FF FFFE       bl               random      ; 
+
+
+
+ARM Macro Assembler    Page 12 
+
+
+  445 00000218 F7FF FFFE       bl               gameStart
+  446 0000021C F7FF FFFE       bl               offLed
+  447 00000220 F7FF FFFE       bl               quatDelay
+  448 00000224 F7FF FFFE       bl               random      ; 
+  449 00000228 F7FF FFFE       bl               gameStart
+  450 0000022C F7FF FFFE       bl               offLed
+  451 00000230 F7FF FFFE       bl               quatDelay
+  452 00000234 F7FF FFFE       bl               random      ; 
+  453 00000238 F7FF FFFE       bl               gameStart
+  454 0000023C F7FF FFFE       bl               offLed
+  455 00000240 F7FF FFFE       bl               quatDelay
+  456 00000244 F7FF FFFE       bl               random      ; 
+  457 00000248 F7FF FFFE       bl               gameStart
+  458 0000024C F7FF FFFE       bl               offLed
+  459 00000250 F7FF FFFE       bl               quatDelay
+  460 00000254 F7FF FFFE       bl               random      ; 
+  461 00000258 F7FF FFFE       bl               gameStart
+  462 0000025C                 ENDP
+  463 0000025C         
+  464 0000025C         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  465 0000025C         ;;; based on the number random, turn on led
+  466 0000025C         ;;; Require:
+  467 0000025C         ;;;  r5 has a value between 0 to 3
+  468 0000025C         ;;; Promise:
+  469 0000025C         ;;;  keep track the number of round plays, when it reach
+                        to 15(successed game),
+  470 0000025C         ;;;  jump to final success use case(UC4)
+  471 0000025C                 ALIGN
+  472 0000025C         gameStart
+                               PROC
+  473 0000025C F1B8 0F0F       cmp              r8, #15
+  474 00000260 D0FE            beq              endSuccess
+  475 00000262 2D00            cmp              r5, #0x0
+  476 00000264 D0FE            beq              led0
+  477 00000266 2D01            cmp              r5, #0x1
+  478 00000268 D0FE            beq              led1
+  479 0000026A 2D02            cmp              r5, #0x2
+  480 0000026C D0FE            beq              led2
+  481 0000026E 2D03            cmp              r5, #0x3
+  482 00000270 D0FE            beq              led3
+  483 00000272 4770            bx               lr
+  484 00000274                 ENDP
+  485 00000274         
+  486 00000274         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  487 00000274         ;;; Subroutine led0 to led 3 is using to turn on led and
+                        then try find in any 
+  488 00000274         ;;; switch is pressed
+  489 00000274         ;;; Require:
+  490 00000274         ;;;  N/A
+  491 00000274         ;;; Promise:
+  492 00000274         ;;;  N/A
+  493 00000274                 ALIGN
+  494 00000274         led0    PROC
+  495 00000274 F7FF FFFE       bl               led1Light
+  496 00000278 E7FE            b                catchSwitch
+  497 0000027A                 ENDP
+  498 0000027A         
+
+
+
+ARM Macro Assembler    Page 13 
+
+
+  499 0000027A 00 00           ALIGN
+  500 0000027C         led1    PROC
+  501 0000027C F7FF FFFE       bl               led2Light
+  502 00000280 E7FE            b                catchSwitch
+  503 00000282                 ENDP
+  504 00000282         
+  505 00000282 00 00           ALIGN
+  506 00000284         led2    PROC
+  507 00000284 F7FF FFFE       bl               led3Light
+  508 00000288 E7FE            b                catchSwitch
+  509 0000028A                 ENDP
+  510 0000028A         
+  511 0000028A 00 00           ALIGN
+  512 0000028C         led3    PROC
+  513 0000028C F7FF FFFE       bl               led4Light
+  514 00000290 E7FE            b                catchSwitch
+  515 00000292                 ENDP
+  516 00000292         
+  517 00000292         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  518 00000292         ;;; pick the value from the current stack pointer(r6) an
+                       d find the remainder from this value
+  519 00000292         ;;; devided by 4, check if this value is same as the pre
+                       vise random value, if no, finish random.
+  520 00000292         ;;; Otherwise, random again. Finally move the ptr to nex
+                       t address by adding the random value to
+  521 00000292         ;;; the address and store the random value to r5.
+  522 00000292         ;;; Require:
+  523 00000292         ;;;  r6 is pointing to the initial value of the stack po
+                       inter.
+  524 00000292         ;;; Promise:
+  525 00000292         ;;;  r5 will save a random value.
+  526 00000292 00 00           ALIGN
+  527 00000294         random  PROC
+  528 00000294 B41F            push             {r0, r1, r2, r3, r4}
+  529 00000296 4630            mov              r0, r6
+  530 00000298 6801            ldr              R1, [r0]
+  531 0000029A F001 01FF       and              r1, r1, #0x000000ff
+  532 0000029E F04F 0204       mov              r2, #0x4
+  533 000002A2 FBB1 F3F2       udiv             r3, r1, r2  ; r3 = r1 / r2
+  534 000002A6 FB03 1512       mls              r5, r3, r2, r1 ; r5 = r1 - (r2 
+                                                            * r3), remainder
+  535 000002AA F106 0601       add              r6, r6, #1
+  536 000002AE 4565            cmp              r5, r12
+  537 000002B0 D0FE            beq              random
+  538 000002B2 46AC            mov              r12, r5
+  539 000002B4 BC1F            pop              {r0, r1, r2, r3, r4}
+  540 000002B6 4770            bx               lr
+  541 000002B8                 ENDP
+  542 000002B8         
+  543 000002B8         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  544 000002B8         ;;; check if any switch was pressed 
+  545 000002B8         ;;; Require:
+  546 000002B8         ;;;  N/A
+  547 000002B8         ;;; Promise:
+  548 000002B8         ;;;  if no swithch has been pressed, jump to end eailure
+                       (UC5), if any switch
+  549 000002B8         ;;;  was pressed, save the corrsponding number to r11.
+
+
+
+ARM Macro Assembler    Page 14 
+
+
+  550 000002B8                 ALIGN
+  551 000002B8         catchSwitch
+                               PROC
+  552 000002B8 F7FF FFFE       bl               variableDelay
+  553 000002BC F04F 030A       LDR              R3, = 10
+  554 000002C0 F104 0401       add              r4, r4, #1
+  555 000002C4 42A3            cmp              r3, r4
+  556 000002C6 D0FE            beq              endFailure
+  557 000002C8 4860            ldr              r0,=0x40010C08 
+                                                            ;test if sw1 press
+  558 000002CA 6801            ldr              r1,[r0]
+  559 000002CC EA4F 2111       lsr              r1,#8
+  560 000002D0 F001 0101       and              r1,#1
+  561 000002D4 2901            cmp              r1,#1
+  562 000002D6 D118            bne              onePress
+  563 000002D8 485C            ldr              r0,=0x40010C08 
+                                                            ;test if sw2 press
+  564 000002DA 6801            ldr              r1,[r0]
+  565 000002DC EA4F 2151       lsr              r1,#9
+  566 000002E0 F001 0101       and              r1,#1
+  567 000002E4 2901            cmp              r1,#1
+  568 000002E6 D113            bne              twoPress
+  569 000002E8 4859            ldr              r0,=0x40011008 
+                                                            ;test if sw3 press
+  570 000002EA 6801            ldr              r1,[r0]
+  571 000002EC EA4F 3111       lsr              r1,#12
+  572 000002F0 F001 0101       and              r1,#1
+  573 000002F4 2901            cmp              r1,#1
+  574 000002F6 D10E            bne              threePress
+  575 000002F8 4856            ldr              r0,=0x40010808 
+                                                            ;test if sw4 press
+  576 000002FA 6801            ldr              r1,[r0]
+  577 000002FC EA4F 1151       lsr              r1,#5
+  578 00000300 F001 0101       and              r1,#1
+  579 00000304 2901            cmp              r1,#1
+  580 00000306 D109            bne              fourPress
+  581 00000308 E7FE            b                catchSwitch
+  582 0000030A         onePress
+  583 0000030A F04F 0B00       mov              r11, #0
+  584 0000030E E7FE            b                checkResult
+  585 00000310         twoPress
+  586 00000310 F04F 0B01       mov              r11, #1
+  587 00000314 E7FE            b                checkResult
+  588 00000316         threePress
+  589 00000316 F04F 0B02       mov              r11, #2
+  590 0000031A E7FE            b                checkResult
+  591 0000031C         fourPress
+  592 0000031C F04F 0B03       mov              r11, #3
+  593 00000320 E7FE            b                checkResult
+  594 00000322                 ENDP
+  595 00000322         
+  596 00000322         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  597 00000322         ;;; check if the switch has been pressed is corrsponding
+                        as the led order.
+  598 00000322         ;;; Require:
+  599 00000322         ;;;  r5 is the No of led is on
+  600 00000322         ;;;  r11 is the No of swithc is pressed
+  601 00000322         ;;; Promise:
+
+
+
+ARM Macro Assembler    Page 15 
+
+
+  602 00000322         ;;;  jump to add score if press correct, or jump to fail
+                        if press is incorrect
+  603 00000322 00 00           ALIGN
+  604 00000324         checkResult
+                               PROC
+  605 00000324 455D            cmp              r5,r11
+  606 00000326 D0FE            beq              addScore
+  607 00000328 D1FE            bne              endFailure
+  608 0000032A                 ENDP
+  609 0000032A         
+  610 0000032A         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  611 0000032A         ;;; add one score
+  612 0000032A         ;;; Require:
+  613 0000032A         ;;;  N/A
+  614 0000032A         ;;; Promise:
+  615 0000032A         ;;;  N/A
+  616 0000032A 00 00           ALIGN
+  617 0000032C         addScore
+                               PROC
+  618 0000032C F108 0801       add              r8, r8, #1
+  619 00000330 E7FE            b                UC3
+  620 00000332                 ENDP
+  621 00000332         
+  622 00000332         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  623 00000332         ;;; show led patten indcate game fail and display score
+  624 00000332         ;;; Require:
+  625 00000332         ;;;  N/A
+  626 00000332         ;;; Promise:
+  627 00000332         ;;;  N/A
+  628 00000332 00 00           ALIGN
+  629 00000334         endFailure
+                               PROC
+  630 00000334 F7FF FFFE       bl               offLed
+  631 00000338 F7FF FFFE       bl               quatDelay
+  632 0000033C F7FF FFFE       bl               allLedOn
+  633 00000340 F7FF FFFE       bl               quatDelay
+  634 00000344 F7FF FFFE       bl               offLed
+  635 00000348 F7FF FFFE       bl               quatDelay
+  636 0000034C F7FF FFFE       bl               allLedOn
+  637 00000350 F7FF FFFE       bl               quatDelay
+  638 00000354 F7FF FFFE       bl               offLed
+  639 00000358 F7FF FFFE       bl               displayScore
+  640 0000035C                 ENDP
+  641 0000035C         
+  642 0000035C         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  643 0000035C         ;;; show led patten indcate game success and display sco
+                       re
+  644 0000035C         ;;; Require:
+  645 0000035C         ;;;  N/A
+  646 0000035C         ;;; Promise:
+  647 0000035C         ;;;  N/A  
+  648 0000035C                 ALIGN
+  649 0000035C         endSuccess
+                               PROC
+  650 0000035C F7FF FFFE       bl               offLed
+  651 00000360 F7FF FFFE       bl               allLedOn
+
+
+
+ARM Macro Assembler    Page 16 
+
+
+  652 00000364 F7FF FFFE       bl               delay
+  653 00000368 F7FF FFFE       bl               delay
+  654 0000036C F7FF FFFE       bl               delay
+  655 00000370 F7FF FFFE       bl               delay
+  656 00000374 E7FE            b                UC2
+  657 00000376                 ENDP
+  658 00000376         
+  659 00000376         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  660 00000376         ;;; display score
+  661 00000376         ;;; Require:
+  662 00000376         ;;;  r8 is the value of score 
+  663 00000376         ;;; Promise:
+  664 00000376         ;;;  N/A
+  665 00000376 00 00           ALIGN
+  666 00000378         displayScore
+                               PROC
+  667 00000378 E92D 01FF       push             {r0,r1,r2,r3,r4,r5,r6,r7,r8}
+  668 0000037C 4B36            ldr              r3,=6400000
+  669 0000037E 4831            ldr              r0,=0x4001080C
+  670 00000380 6801            ldr              r1,[r0]
+  671 00000382 F1B8 0F00       cmp              r8, #0
+  672 00000386 D029            beq              score0
+  673 00000388 F1B8 0F01       cmp              r8, #1
+  674 0000038C D028            beq              score1
+  675 0000038E F1B8 0F02       cmp              r8, #2
+  676 00000392 D027            beq              score2
+  677 00000394 F1B8 0F03       cmp              r8, #3
+  678 00000398 D026            beq              score3
+  679 0000039A F1B8 0F04       cmp              r8, #4
+  680 0000039E D025            beq              score4
+  681 000003A0 F1B8 0F05       cmp              r8, #5
+  682 000003A4 D024            beq              score5
+  683 000003A6 F1B8 0F06       cmp              r8, #6
+  684 000003AA D023            beq              score6
+  685 000003AC F1B8 0F07       cmp              r8, #7
+  686 000003B0 D022            beq              score7
+  687 000003B2 F1B8 0F08       cmp              r8, #8
+  688 000003B6 D021            beq              score8
+  689 000003B8 F1B8 0F09       cmp              r8, #9
+  690 000003BC D020            beq              score9
+  691 000003BE F1B8 0F0A       cmp              r8, #10
+  692 000003C2 D01F            beq              score10
+  693 000003C4 F1B8 0F0B       cmp              r8, #11
+  694 000003C8 D01E            beq              score11
+  695 000003CA F1B8 0F0C       cmp              r8, #12
+  696 000003CE D01D            beq              score12
+  697 000003D0 F1B8 0F0D       cmp              r8, #13
+  698 000003D4 D01C            beq              score13
+  699 000003D6 F1B8 0F0E       cmp              r8, #14
+  700 000003DA D01B            beq              score14
+  701 000003DC         score0
+  702 000003DC 4A1F            ldr              r2,=zero
+  703 000003DE E01B            b                turnOnLed
+  704 000003E0         score1
+  705 000003E0 4A1F            ldr              r2,=one
+  706 000003E2 E019            b                turnOnLed
+  707 000003E4         score2
+  708 000003E4 4A1F            ldr              r2,=two
+
+
+
+ARM Macro Assembler    Page 17 
+
+
+  709 000003E6 E017            b                turnOnLed
+  710 000003E8         score3
+  711 000003E8 4A1F            ldr              r2,=three
+  712 000003EA E015            b                turnOnLed
+  713 000003EC         score4
+  714 000003EC 4A1F            ldr              r2,=four
+  715 000003EE E013            b                turnOnLed
+  716 000003F0         score5
+  717 000003F0 4A1F            ldr              r2,=five
+  718 000003F2 E011            b                turnOnLed
+  719 000003F4         score6
+  720 000003F4 4A1F            ldr              r2,=six
+  721 000003F6 E00F            b                turnOnLed
+  722 000003F8         score7
+  723 000003F8 4A1F            ldr              r2,=seven
+  724 000003FA E00D            b                turnOnLed
+  725 000003FC         score8
+  726 000003FC 4A1F            ldr              r2,=eight
+  727 000003FE E00B            b                turnOnLed
+  728 00000400         score9
+  729 00000400 4A1F            ldr              r2,=nine
+  730 00000402 E009            b                turnOnLed
+  731 00000404         score10
+  732 00000404 4A1F            ldr              r2,=ten
+  733 00000406 E007            b                turnOnLed
+  734 00000408         score11
+  735 00000408 4A1F            ldr              r2,=eleven
+  736 0000040A E005            b                turnOnLed
+  737 0000040C         score12
+  738 0000040C 4A1F            ldr              r2,=twelve
+  739 0000040E E003            b                turnOnLed
+  740 00000410         score13
+  741 00000410 4A1F            ldr              r2,=thirteen
+  742 00000412 E001            b                turnOnLed
+  743 00000414         score14
+  744 00000414 4A1F            ldr              r2,=fourteen
+  745 00000416 E7FF            b                turnOnLed
+  746 00000418         turnOnLed
+  747 00000418 F104 0401       add              r4,r4,#1
+  748 0000041C EA01 0102       and              r1,r1,r2
+  749 00000420 6001            str              r1,[r0]
+  750 00000422 42A3            cmp              r3, r4
+  751 00000424 D1F8            bne              turnOnLed
+  752 00000426 F04F 0800       mov              r8, #0
+  753 0000042A E7FE            b                UC2
+  754 0000042C                 ENDP
+  755 0000042C         
+  756 0000042C FFFFFFFF 
+                       zero    EQU              0xFFFFFFFF
+  757 0000042C FFFFEFFF 
+                       one     EQU              0xFFFFEFFF
+  758 0000042C FFFFF7FF 
+                       two     EQU              0xFFFFF7FF
+  759 0000042C FFFFE7FF 
+                       three   EQU              0xFFFFE7FF
+  760 0000042C FFFFFBFF 
+                       four    EQU              0xFFFFFBFF
+  761 0000042C FFFFEBFF 
+                       five    EQU              0xFFFFEBFF
+
+
+
+ARM Macro Assembler    Page 18 
+
+
+  762 0000042C FFFFF3FF 
+                       six     EQU              0xFFFFF3FF
+  763 0000042C FFFFE3FF 
+                       seven   EQU              0xFFFFE3FF
+  764 0000042C FFFFFDFF 
+                       eight   EQU              0xFFFFFDFF
+  765 0000042C FFFFEDFF 
+                       nine    EQU              0xFFFFEDFF
+  766 0000042C FFFFF5FF 
+                       ten     EQU              0xFFFFF5FF
+  767 0000042C FFFFE5FF 
+                       eleven  EQU              0xFFFFE5FF
+  768 0000042C FFFFF9FF 
+                       twelve  EQU              0xFFFFF9FF
+  769 0000042C FFFFE9FF 
+                       thirteen
+                               EQU              0xFFFFE9FF
+  770 0000042C FFFFF1FF 
+                       fourteen
+                               EQU              0xFFFFF1FF
+  771 0000042C         
+  772 0000042C                 ALIGN
+  773 0000042C                 END
+              00186A00 
+              20001000 
+              40021018 
+              40010804 
+              44433334 
+              40010800 
+              4001080C 
+              00061A80 
+              40010C08 
+              40011008 
+              40010808 
+              0061A800 
+              FFFFFFFF 
+              FFFFEFFF 
+              FFFFF7FF 
+              FFFFE7FF 
+              FFFFFBFF 
+              FFFFEBFF 
+              FFFFF3FF 
+              FFFFE3FF 
+              FFFFFDFF 
+              FFFFEDFF 
+              FFFFF5FF 
+              FFFFE5FF 
+              FFFFF9FF 
+              FFFFE9FF 
+              FFFFF1FF 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\tp.d -o.\objects\tp.o -I"C:\Users\kevin\Desktop\352 term
+ proj\RTE" -ID:\cs301\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include -ID:\cs3
+01\ARM\CMSIS\Include --predefine="__UVISION_VERSION SETA 521" --predefine="STM3
+2F10X_MD_VL SETA 1" --list=.\listings\tp.lst tp.s

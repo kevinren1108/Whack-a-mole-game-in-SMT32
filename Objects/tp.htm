@@ -1,0 +1,250 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [.\Objects\tp.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image .\Objects\tp.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sun Dec 02 07:37:39 2018
+<BR><P>
+<H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+
+<P>
+<H3>
+Mutually Recursive functions
+</H3> <LI><a href="#[17]">random</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[17]">random</a><BR>
+ <LI><a href="#[1c]">endSuccess</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[4]">UC2</a><BR>
+ <LI><a href="#[1d]">displayScore</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[4]">UC2</a><BR>
+ <LI><a href="#[1a]">addScore</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[11]">UC3</a><BR>
+ <LI><a href="#[18]">catchSwitch</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[18]">catchSwitch</a><BR>
+ <LI><a href="#[4]">UC2</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[4]">UC2</a><BR>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[1]">Reset_Handler</a> from tp.o(MYCODE) referenced from tp.o(RESET)
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[1]"></a>Reset_Handler</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+<LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_init
+<LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ClockInit
+</UL>
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[2]"></a>GPIO_ClockInit</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
+</UL>
+
+<P><STRONG><a name="[3]"></a>GPIO_init</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
+</UL>
+
+<P><STRONG><a name="[4]"></a>UC2</STRONG> (Thumb, 106 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
+<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;testKeyPress
+<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;offLed
+<LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led4Light
+<LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led3Light
+<LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led2Light
+<LI><a href="#[6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led1Light
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
+<LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displayScore
+<LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endSuccess
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[5]"></a>ledStatusPatten</STRONG> (Thumb, 126 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC3
+<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quatDelay
+<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;offLed
+<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;allLedOn
+<LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led4Light
+<LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led3Light
+<LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led2Light
+<LI><a href="#[6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led1Light
+</UL>
+<BR>[Called By]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2ToUC3
+</UL>
+
+<P><STRONG><a name="[6]"></a>led1Light</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led0
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[7]"></a>led2Light</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led1
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[8]"></a>led3Light</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led2
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[9]"></a>led4Light</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led3
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[a]"></a>allLedOn</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endSuccess
+<LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endFailure
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+</UL>
+
+<P><STRONG><a name="[b]"></a>offLed</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endSuccess
+<LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endFailure
+<LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC3
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[c]"></a>testKeyPress</STRONG> (Thumb, 66 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2ToUC3
+</UL>
+<BR>[Called By]<UL><LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[d]"></a>delay</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endSuccess
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+
+<P><STRONG><a name="[e]"></a>quatDelay</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endFailure
+<LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC3
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+</UL>
+
+<P><STRONG><a name="[f]"></a>variableDelay</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+</UL>
+
+<P><STRONG><a name="[10]"></a>UC2ToUC3</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+</UL>
+<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;testKeyPress
+</UL>
+
+<P><STRONG><a name="[11]"></a>UC3</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;random
+<LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gameStart
+<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quatDelay
+<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;offLed
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addScore
+<LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledStatusPatten
+</UL>
+
+<P><STRONG><a name="[12]"></a>gameStart</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endSuccess
+<LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led3
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led2
+<LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led1
+<LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led0
+</UL>
+<BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC3
+</UL>
+
+<P><STRONG><a name="[13]"></a>led0</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+<LI><a href="#[6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led1Light
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gameStart
+</UL>
+
+<P><STRONG><a name="[14]"></a>led1</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+<LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led2Light
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gameStart
+</UL>
+
+<P><STRONG><a name="[15]"></a>led2</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+<LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led3Light
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gameStart
+</UL>
+
+<P><STRONG><a name="[16]"></a>led3</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+<LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led4Light
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gameStart
+</UL>
+
+<P><STRONG><a name="[17]"></a>random</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;random
+</UL>
+<BR>[Called By]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;random
+<LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC3
+</UL>
+
+<P><STRONG><a name="[18]"></a>catchSwitch</STRONG> (Thumb, 106 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endFailure
+<LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkResult
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+<LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;variableDelay
+</UL>
+<BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+<LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led3
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led2
+<LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led1
+<LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led0
+</UL>
+
+<P><STRONG><a name="[19]"></a>checkResult</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endFailure
+<LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addScore
+</UL>
+<BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+</UL>
+
+<P><STRONG><a name="[1a]"></a>addScore</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC3
+</UL>
+<BR>[Called By]<UL><LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkResult
+</UL>
+
+<P><STRONG><a name="[1b]"></a>endFailure</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displayScore
+<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quatDelay
+<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;offLed
+<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;allLedOn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkResult
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;catchSwitch
+</UL>
+
+<P><STRONG><a name="[1c]"></a>endSuccess</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
+<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;offLed
+<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;allLedOn
+<LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gameStart
+</UL>
+
+<P><STRONG><a name="[1d]"></a>displayScore</STRONG> (Thumb, 180 bytes, Stack size 0 bytes, tp.o(MYCODE))
+<BR><BR>[Calls]<UL><LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UC2
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;endFailure
+</UL>
+<P>
+<H3>
+Undefined Global Symbols
+</H3><HR></body></html>
