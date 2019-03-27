@@ -2,7 +2,7 @@
 	This is a Whack-a-mole simulation game, player will press the corresponding switch when the led light
 on.
 
-![image](https://drive.google.com/uc?export=view&id=13dKHIBAFfr-Ks1TRRAFL4rH9wZ-Hx5PZ)
+![image](https://drive.google.com/uc?export=view&id=1QtCn3fQ-uGEPSDyrX9Q-StpWDHnFVptz)
 
 ###How to play
 	When the player press reset switch, the game will start and show a back and forth led patten
